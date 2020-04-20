@@ -1,4 +1,4 @@
-	include "\Sources\AtariST\ShaneSrc\Library\GEMDOS_1.asm"
+	include "GEMDOS_1.asm"
 
 	xdef	NewLine
 	xdef	PrintChar

@@ -6,7 +6,7 @@
 	
 	xref	PrintChar
 
-	SECTION	TEXT
+	SECTION	CODE
 
 HexDump8:
 	movem.l		d0,-(sp)
