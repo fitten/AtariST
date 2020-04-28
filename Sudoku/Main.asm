@@ -1,3 +1,5 @@
+	include "Global_Inc.asm"
+
 	xref	PrintPuzzle
 	xref	NewLine
 	xref	PrintLine
@@ -7,12 +9,12 @@
 	xref	Grid1
 	xref	Grid1RootSize
 	xref	Grid1RowLength
-	xref	PrintStringPtrLineWait
+	xref	putslnw
 	
 	SECTION	CODE
 Main:
-	lea		StartMessage,a0
-	jsr		PrintStringPtrLineWait
+	lea		BeginMessage,a0
+	jsr		putslnw
 	
 	lea		Grid1,a3
 	move.w	Grid1RowLength,d7
@@ -36,13 +38,13 @@ Main:
 	jsr		NewLine
 	
 	lea		ExitMessage,a0
-	jsr		PrintStringPtrLineWait
+	jsr		putslnw
 	jmp		ReturnToOS
 
 
 
 	SECTION	DATA
 	align 1
-StartMessage:	dc.b	'Starting Program.',0
+BeginMessage:	dc.b	'Starting Program.',0
 	align 1
 ExitMessage:	dc.b	'Exiting Program.',0

@@ -1,3 +1,5 @@
+	include "Global_Inc.asm"
+
 	xdef	Grid1
 	xdef	Grid1RowLength
 	xdef	Grid1RootSize
@@ -15,6 +17,6 @@ Grid1:
 	dc.w	8,0,0,2,0,3,0,0,9
 	dc.w	0,0,5,0,1,0,3,0,0
 
-	align 1
+	align 2
 Grid1RowLength:	dc.w	9
 Grid1RootSize:	dc.w	3

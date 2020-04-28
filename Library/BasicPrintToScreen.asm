@@ -3,9 +3,9 @@
 	xdef	NewLine
 	xdef	PrintChar
 	xdef	PrintString
-	xdef	PrintStringPtr
-	xdef	PrintStringPtrLine
-	xdef	PrintStringPtrLineWait
+	xdef	puts
+	xdef	putsln
+	xdef	putslnw
 	xdef	WaitAnyKey
 	xdef	PrintLine
 	
@@ -48,7 +48,7 @@ PrintString_done:
 	movem.l	(sp)+,d0/a3			;restore state
 	rts							;Return
 
-PrintStringPtr:
+puts:
 	movem.l		d0-d7/a0-a7,-(sp)
 	move.l		a0,-(sp)
 	move.w		#GEMDOS_1_Cconws,-(sp)
@@ -58,13 +58,13 @@ PrintStringPtr:
 	movem.l		(sp)+,d0-d7/a0-a7
 	rts
 	
-PrintStringPtrLine:
-	jsr		PrintStringPtr
+putsln:
+	jsr		puts
 	jsr		NewLine
 	rts
 	
-PrintStringPtrLineWait:
-	jsr		PrintStringPtrLine
+putslnw:
+	jsr		putsln
 	jsr		WaitAnyKey
 	rts
 	

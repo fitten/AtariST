@@ -1,3 +1,5 @@
+	include "Global_Inc.asm"
+
 	xref	Sudoku_Solver
 	xref	SudokuSolver_PuzzleRowLength
 	xref	SudokuSolver_PuzzleRowSqrt
@@ -26,9 +28,9 @@ SolveSudoku:
 	clr.w		-(sp)					;current column index (0)
 
 	jsr			Sudoku_Solver_FindNextEmpty
-	cmp.w		#-1,d0					;Couldn't find an empty spot
-	beq			CleanAndReturn
-	jsr			Sudoku_Solver
+	cmp.w		#SUCCESS,d0				;Found an empty spot?
+	bne			SetErrorAndReturn		;No, set error, clean up, and exit
+	jsr			Sudoku_Solver			;Let's solve this puzzle! We keep the same stack as returned by the call
 
 CleanAndReturn:
 	move.w		(sp)+,d6				;Current column
@@ -38,6 +40,10 @@ CleanAndReturn:
 	movem.l		(sp)+,d1-d7/a0-a7		;Restore
 	unlk		a6
 	rts									;Return
+
+SetErrorAndReturn:
+	move.w		#FAILURE,d0
+	bra			CleanAndReturn
 
 PrintPuzzleGlobals:
 	movem.l	d0-d7/a0-a7,-(sp)

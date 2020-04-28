@@ -1,14 +1,17 @@
+	include "Global_Inc.asm"
+
 	xdef	PrintPuzzle
 	
 	xref	PrintChar
 	xref	NewLine
-	xref	PrintStringPtrLine
-	xref	PrintStringPtrLineWait
+	xref	puts
+	xref	putsln
+	xref	putslnw
 
 	
 
-Space		EQU		' '
-ZeroASCII	EQU		'0'
+SPACE		EQU		' '
+ZEROASCII	EQU		'0'
 
 	SECTION	CODE
 
@@ -36,10 +39,10 @@ StartNextRow:
 
 DoTheNextColumn:
 	move.w	(a1)+,d0					;Load value to print
-	add.w	#ZeroASCII,d0				;make it ASCII
+	add.w	#ZEROASCII,d0				;make it ASCII
 	and.w	#$00FF,d0					;Clear it off
 	move.b	d0,(a2)+					;Put the char in the buffer
-	;move.b	#Space,(a2)+				;Put a space in the buffer
+	;move.b	#SPACE,(a2)+				;Put a space in the buffer
 	addq.w	#1,d1						;Increment column index
 	addq.w	#1,d2						;Increment column counter for horizontal spacer
 	cmp.w	d7,d1						;Are we at the end of a row?
@@ -52,7 +55,7 @@ DoTheNextColumn:
 
 HandleEndOfRow:
 	jsr		TerminateBuffer
-	jsr		PrintStringPtr				;Print the buffer
+	jsr		puts						;Print the buffer
 	addq.w	#1,d3						;Increment row index
 	addq.w	#1,d4						;Increment vertical spacer counter
 	cmp.w	d7,d3						;Are we at the end of the puzzle?
@@ -60,9 +63,9 @@ HandleEndOfRow:
 	bra		StartNextRow				;Start the next row
 
 TerminateBuffer:
-	move.b	#$0D,(a2)+					;CR
-	move.b	#$0A,(a2)+					;LF
-	move.b	#0,(a2)						;null terminate the buffer
+	move.b	#CR,(a2)+					;CR
+	move.b	#LF,(a2)+					;LF
+	move.b	#NULL,(a2)					;null terminate the buffer
 	rts
 
 Exit:
@@ -85,7 +88,7 @@ PVS:
 	move.b	#VerticalSpacer,(a2)+
 	dbeq	d0,PVS
 	jsr		TerminateBuffer
-	jsr		PrintStringPtr
+	jsr		puts
 	clr.w	d4							;Reset vertical spacer count
 	jmp		StartNextRow
 	

@@ -1,3 +1,5 @@
+	include "Global_Inc.asm"
+
 	xdef	Sudoku_Solver
 		
 	xref	MemoryDumpAndWait
@@ -10,37 +12,37 @@
 	xref	SudokuSolver_PuzzleRowLength
 	xref	SudokuSolver_PuzzleRowSqrt
 
-COLINDEX	EQU	8
-ROWINDEX	EQU	10
-PUZZLEPOS	EQU	12
+MYPCOLINDEX	EQU	8
+MYROWINDEX	EQU	10
+MYPUZZLEPOS	EQU	12
+
+ATSIGNOFFSET	EQU $10
 
 	SECTION	CODE
 
-	;Stack on entry:
-	;	Base address of puzzle
-	;	Address of location of interest
-	;	Row Index
-	;	Column Index
-	;	Row Length
 Sudoku_Solver:
 	link		a6,#0
-	movem.l		d1-d7/a0-a7,-(sp)		;Save
-	move.l		PUZZLEPOS(a6),a1
-	move.w		ROWINDEX(a6),d7
-	move.w		COLINDEX(a6),d6
+	movem.l		d1-d7/a0-a7,-(sp)		;Save state
+	move.l		MYPUZZLEPOS(a6),a1
+	move.w		MYROWINDEX(a6),d7
+	move.w		MYPCOLINDEX(a6),d6
 	moveq		#1,d1					;candidate value
 
 Loop:
-	move.w		#$10,(a1)			;Just put something in the puzzle so i can see it
+	move.w		#ATSIGNOFFSET,(a1)		;Just put something in the puzzle so I can see it
 	jsr			PrintPuzzleGlobals
-	move.l		a1,-(sp)			;Store variables for next call to self
-	move.w		d7,-(sp)			;Store variables for next call to self
-	move.w		d6,-(sp)			;Store variables for next call to self
-	
+
+	;Need to do the tests here
+
+	move.l		a1,-(sp)				;Push my puzzle position onto the stack
+	move.w		d7,-(sp)				;Push my row index onto the stack
+	move.w		d6,-(sp)				;Push my column index onto the stack
 	jsr			Sudoku_Solver_FindNextEmpty
-	cmp.w		#-1,d0				;Couldn't find an empty spot
-	beq			CleanAndExit
-	jsr			Sudoku_Solver
+	cmp.w		#SUCCESS,d0				;There's another empty spot?
+	beq			RecursiveCalltoSolve	;Let's keep going
+	cmp.w		#NOEMPTY,d0				;No empty spots left?
+	beq			PuzzleIsSolved			;Solved, return we're done
+	;Anything else, it must be an error so just return it
 	
 CleanAndExit:
 	move.w		(sp)+,d6			;Clear the stack from the call
@@ -51,9 +53,14 @@ Exit:
 	movem.l		(sp)+,d1-d7/a0-a7		;Restore
 	unlk		a6
 	rts
+
+RecursiveCallToSolve:
+	jsr			Sudoku_Solver
+	bra			CleanAndExit
 	
-	
-	
+PuzzleIsSolved:
+	clr.w		d0					;Return success!
+	bra			CleanAndExit		;Clean up and leave
 	
 	;Test value in d1, column index d6, row index d7
 	;Return value in d0
