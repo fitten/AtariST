@@ -18,6 +18,7 @@ MemoryDump:
 	andi.l	#-2,d1		;even word boundary
 	move.l	d1,a1
 	move.l	d0,d1
+	subq.l	#1,d1		;Remember dbeq will do for 0 as well
 
 	jsr		NewLine
 Loop:

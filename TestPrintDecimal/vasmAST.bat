@@ -18,31 +18,7 @@ SET SRCFILE=Main
 %VASM% %SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
 if not "%errorlevel%"=="0" goto Abandon
 
-SET SRCFILE=FindNextEmpty
-%VASM% %SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
-if not "%errorlevel%"=="0" goto Abandon
-
-SET SRCFILE=Grid1
-%VASM% %SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
-if not "%errorlevel%"=="0" goto Abandon
-
-SET SRCFILE=PrintPuzzle
-%VASM% %SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
-if not "%errorlevel%"=="0" goto Abandon
-
-SET SRCFILE=SolveSudoku
-%VASM% %SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
-if not "%errorlevel%"=="0" goto Abandon
-
-SET SRCFILE=Sudoku_Solver
-%VASM% %SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
-if not "%errorlevel%"=="0" goto Abandon
-
-SET SRCFILE=Sudoku_Solver_globals
-%VASM% %SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
-if not "%errorlevel%"=="0" goto Abandon
-
-SET SRCFILE=RegisterDump
+SET SRCFILE=ValueToDecimalASCII
 %VASM% ..\Library\%SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
 if not "%errorlevel%"=="0" goto Abandon
 
@@ -54,21 +30,21 @@ SET SRCFILE=ReturnToOS
 %VASM% ..\Library\%SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
 if not "%errorlevel%"=="0" goto Abandon
 
-SET SRCFILE=PrintHex
-%VASM% ..\Library\%SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
-if not "%errorlevel%"=="0" goto Abandon
-
 SET SRCFILE=MemoryDump
 %VASM% ..\Library\%SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
 if not "%errorlevel%"=="0" goto Abandon
 
-SET SRCFILE=PrintDecimal
+SET SRCFILE=RegisterDump
 %VASM% ..\Library\%SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
 if not "%errorlevel%"=="0" goto Abandon
 
+SET SRCFILE=PrintHex
+%VASM% ..\Library\%SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
+if not "%errorlevel%"=="0" goto Abandon
 
 cd OBJ
-%VLINK% -o..\BIN\Prog.tos -bataritos Main.ELF FindNextEmpty.ELF Grid1.ELF PrintPuzzle.ELF SolveSudoku.ELF Sudoku_Solver.ELF RegisterDump.ELF BasicPrintToScreen.ELF ReturnToOS.ELF PrintHex.ELF Sudoku_Solver_globals.ELF MemoryDump.ELF PrintDecimal.ELF
+%VLINK% -o..\BIN\Prog.tos -bataritos Main.ELF ValueToDecimalASCII.ELF BasicPrintToScreen.ELF ReturnToOS.ELF MemoryDump.ELF RegisterDump.ELF PrintHex.ELF
+
 cd ..
 if not "%errorlevel%"=="0" goto Abandon
 

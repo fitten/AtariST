@@ -55,6 +55,7 @@ Exit:
 	rts
 
 RecursiveCallToSolve:
+	jsr			PrintMySpot
 	jsr			Sudoku_Solver
 	bra			CleanAndExit
 	
@@ -108,4 +109,11 @@ Sudoku_Solver_TestSubBlock:
 	movem.l		(sp)+,d2-d7/a0-a7		;Restore
 	unlk		a6
 	rts
+
+PrintMySpot:
+	link	a6,#0
+	movem.l	d0-d7/a0-a7,-(sp)
 	
+	movem.l	(sp)+,d0-d7/a0-a7
+	unlk	a6
+	rts
