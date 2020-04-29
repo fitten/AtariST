@@ -10,7 +10,7 @@
 	SECTION	CODE
 	
 	;A0 is memory location
-	;D0	is number of words
+	;D0	is number of words (long)
 MemoryDump:
 	movem.l	d0-d7/a0-a7,-(sp)
 

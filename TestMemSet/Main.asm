@@ -20,7 +20,7 @@ Main:
 	
 	;Easy case first
 	move.w		#$AA,-(sp)
-	move.w		#16,-(sp)	
+	move.l		#16,-(sp)	
 	lea			Chunk1,a0
 	move.l		a0,-(sp)
 	jsr			memset
@@ -35,7 +35,7 @@ Main:
 	
 	;Off by 3
 	move.w		#$BB,-(sp)
-	move.w		#22,-(sp)
+	move.l		#22,-(sp)
 	lea			Pad2,a0
 	move.l		a0,-(sp)
 	jsr			memset

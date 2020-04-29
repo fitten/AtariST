@@ -42,8 +42,13 @@ SET SRCFILE=PrintHex
 %VASM% ..\Library\%SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
 if not "%errorlevel%"=="0" goto Abandon
 
+SET SRCFILE=MemSet
+%VASM% ..\Library\%SRCFILE%.asm -chklabels -nocase -Dvasm=1  -L LIST\%SRCFILE%.txt -DBuildAST=1 -Felf -o OBJ\%SRCFILE%.ELF
+if not "%errorlevel%"=="0" goto Abandon
+
+
 cd OBJ
-%VLINK% -o..\BIN\Prog.tos -bataritos Main.ELF ValueToDecimalASCII.ELF BasicPrintToScreen.ELF ReturnToOS.ELF MemoryDump.ELF RegisterDump.ELF PrintHex.ELF
+%VLINK% -o..\BIN\Prog.tos -bataritos Main.ELF ValueToDecimalASCII.ELF BasicPrintToScreen.ELF ReturnToOS.ELF MemoryDump.ELF RegisterDump.ELF PrintHex.ELF MemSet.ELF
 
 cd ..
 if not "%errorlevel%"=="0" goto Abandon
